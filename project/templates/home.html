@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+    {% block content %}
+    <div class="vh-100 d-flex justify-content-center align-items-center">
+        <a type="button" class="btn btn-home-xl" href="{{ url_for('difficulty') }}"><h3>Textual Riddle (english only)</h3></a>
+        <a type="button" class="btn btn-home-xl" href="{{ url_for('difficulty') }}"><h3>Math Riddle (polish only)</h3></a>
+    </div>
+{% endblock %}
