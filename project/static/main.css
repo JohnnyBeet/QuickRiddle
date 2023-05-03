@@ -39,3 +39,10 @@ body {
     background-color: rgb(149, 142, 109);
 
 }
+
+.m-all {
+   margin-top: 5%;
+   margin-bottom: auto;
+   margin-left: auto;
+   margin-right: auto; 
+}
