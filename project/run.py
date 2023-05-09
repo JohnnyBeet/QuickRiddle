@@ -1,16 +1,15 @@
 from flask import Flask, render_template, url_for, request, jsonify
-import json
 from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
-
+import json
 from database.models import create_difficulty_tab, create_math_riddles_tab, create_word_riddles_tab, create_users_table
-
 
 db_url = "postgresql://postgres:postgres@localhost:5432/Riddles"
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 db = SQLAlchemy(app)
+
 
 difficulty = ''
 type = ''
@@ -55,9 +54,6 @@ def difficulty_post():
     app.logger.info(f"Chosen difficulty: {difficulty}")
     return difficulty
 
-
-if __name__ == '__main__':
-    app.run(debug=True)
 
 def insert_difficulty_level(db, Difficulty):
     low = Difficulty(level='low')
