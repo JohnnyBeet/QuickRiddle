@@ -1,9 +1,10 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request, jsonify
+import json
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import text
 import pandas as pd
 
 from database.models import create_difficulty_tab, create_math_riddles_tab, create_word_riddles_tab, create_users_table
+
 
 db_url = "postgresql://postgres:postgres@localhost:5432/Riddles"
 
@@ -11,6 +12,8 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 db = SQLAlchemy(app)
 
+difficulty = ''
+type = ''
 
 @app.route("/")
 @app.route("/home")
@@ -36,6 +39,25 @@ def signup():
 def difficulty():
     return render_template('difficulty.html')
 
+@app.route("/riddle")
+def riddle():
+    return render_template('riddle.html')
+
+@app.route("/type_post", methods=['POST'])
+def type_post():
+    type = json.loads(request.get_json())['type']
+    app.logger.info(f"Chosen type: {type}")
+    return type
+
+@app.route("/difficulty_post", methods=['POST'])
+def difficulty_post():
+    difficulty = json.loads(request.get_json())['difficulty']
+    app.logger.info(f"Chosen difficulty: {difficulty}")
+    return difficulty
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 def insert_difficulty_level(db, Difficulty):
     low = Difficulty(level='low')
