@@ -1,0 +1,48 @@
+body {
+    background-color: #cdc6c6;
+}
+
+.btn-home-xl {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 10px;
+    width: 480px;
+    height: 240px;
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-bottom: 20%;
+    background-color: rgb(167, 126, 175);
+
+}
+
+.margin-jumbo {
+    margin-right: 15%;
+    margin-left: 15%;
+    margin-bottom: 20%;
+}
+
+.mtop-025 {
+    margin-top: 2.5%;
+}
+
+.btn-difficulty-xl {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 10px;
+    width: 480px;
+    height: 240px;
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-bottom: 20%;
+    background-color: rgb(149, 142, 109);
+
+}
+
+.m-all {
+   margin-top: 5%;
+   margin-bottom: auto;
+   margin-left: auto;
+   margin-right: auto; 
+}
