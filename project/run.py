@@ -1,7 +1,8 @@
 from flask import Flask, render_template, url_for, request, jsonify
+import json
 from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
-import json
+
 from database.models import create_difficulty_tab, create_math_riddles_tab, create_word_riddles_tab, create_users_table
 
 db_url = "postgresql://postgres:postgres@localhost:5432/Riddles"
@@ -13,6 +14,7 @@ db = SQLAlchemy(app)
 
 difficulty = ''
 type = ''
+
 
 @app.route("/")
 @app.route("/home")
@@ -29,6 +31,7 @@ def about():
 def login():
     return render_template('login.html')
 
+
 @app.route("/signup")
 def signup():
     return render_template('signup.html')
@@ -38,15 +41,18 @@ def signup():
 def difficulty():
     return render_template('difficulty.html')
 
+
 @app.route("/riddle")
 def riddle():
     return render_template('riddle.html')
+
 
 @app.route("/type_post", methods=['POST'])
 def type_post():
     type = json.loads(request.get_json())['type']
     app.logger.info(f"Chosen type: {type}")
     return type
+
 
 @app.route("/difficulty_post", methods=['POST'])
 def difficulty_post():
@@ -97,7 +103,6 @@ def create_tables(db):
             insert_math_riddles(db)
         if db.session.query(WordRiddles).first() is None:
             insert_word_riddles(db)
-
 
 
 if __name__ == '__main__':
