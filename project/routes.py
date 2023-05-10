@@ -2,6 +2,9 @@ from flask import render_template, url_for, request
 import json
 from project import app
 
+tpye = ''
+difficulty =''
+
 
 @app.route("/")
 @app.route("/home")
