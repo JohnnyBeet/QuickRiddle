@@ -2,6 +2,7 @@ from flask import render_template, url_for, request
 import json
 from project import app
 from project.src.random_riddle import random_riddle
+from project.src.save_riddle import save_riddle
 
 category = None
 difficulty = None
@@ -46,6 +47,7 @@ def riddle():
 
     global random_quiz
     random_quiz = random_riddle(category=category, difficulty=difficulty)
+    app.logger.info(f"Chosen riddle ID: {str(random_quiz.id)}")
     return render_template('riddle.html',quiz_content=random_quiz.content)
 
 @app.route('/assessment',methods=['GET','POST'])
@@ -55,6 +57,8 @@ def assessment():
     callback = 'Error'
     if user_answer.lower() == correct_answer.lower():
         callback = 'Correct'
+        save_riddle(random_quiz,True)
     else:
         callback = 'Incorrect'
+        save_riddle(random_quiz,False)
     return render_template('assessment.html',callback=callback,right_answer=correct_answer)
