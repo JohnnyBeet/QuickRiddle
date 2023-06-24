@@ -40,12 +40,21 @@ def difficulty():
 @app.route("/riddle",methods=['GET','POST'])
 def riddle():
     if request.method == 'POST':
-        if 'diff_value' in request.form:
-            global difficulty
-            difficulty = request.form.get('diff_value')
-            app.logger.info(f"Chosen difficulty: {str(difficulty)}")
-        elif 'user_answer' in request.form:
-            print(request.form.get('user_answer'))
+        global difficulty
+        difficulty = request.form.get('diff_value')
+        app.logger.info(f"Chosen difficulty: {str(difficulty)}")
 
+    global random_quiz
     random_quiz = random_riddle(category=category, difficulty=difficulty)
     return render_template('riddle.html',quiz_content=random_quiz.content)
+
+@app.route('/assessment',methods=['GET','POST'])
+def assessment():
+    user_answer = request.form.get("user_answer")
+    correct_answer = random_quiz.answer
+    callback = 'Error'
+    if user_answer.lower() == correct_answer.lower():
+        callback = 'Correct'
+    else:
+        callback = 'Incorrect'
+    return render_template('assessment.html',callback=callback,right_answer=correct_answer)
