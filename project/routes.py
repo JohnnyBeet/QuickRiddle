@@ -1,9 +1,10 @@
 from flask import render_template, url_for, request
 import json
 from project import app
+from project.src.random_riddle import random_riddle
 
-tpye = ''
-difficulty =''
+category = None
+difficulty = None
 
 
 @app.route("/")
@@ -27,25 +28,24 @@ def signup():
     return render_template('signup.html')
 
 
-@app.route("/difficulty")
+@app.route("/difficulty",methods=['GET','POST'])
 def difficulty():
+    if request.method == 'POST':
+        global category
+        category = request.form.get('cat_value')
+        app.logger.info(f"Chosen category: {str(category)}")
     return render_template('difficulty.html')
 
 
-@app.route("/riddle")
+@app.route("/riddle",methods=['GET','POST'])
 def riddle():
-    return render_template('riddle.html')
+    if request.method == 'POST':
+        if 'diff_value' in request.form:
+            global difficulty
+            difficulty = request.form.get('diff_value')
+            app.logger.info(f"Chosen difficulty: {str(difficulty)}")
+        elif 'user_answer' in request.form:
+            print(request.form.get('user_answer'))
 
-
-@app.route("/type_post", methods=['POST'])
-def type_post():
-    type = json.loads(request.get_json())['type']
-    app.logger.info(f"Chosen type: {type}")
-    return type
-
-
-@app.route("/difficulty_post", methods=['POST'])
-def difficulty_post():
-    difficulty = json.loads(request.get_json())['difficulty']
-    app.logger.info(f"Chosen difficulty: {difficulty}")
-    return difficulty
+    random_quiz = random_riddle(category=category, difficulty=difficulty)
+    return render_template('riddle.html',quiz_content=random_quiz.content)

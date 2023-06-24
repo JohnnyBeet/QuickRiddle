@@ -1,40 +1,21 @@
 {% extends "layout.html" %} {% block content %}
 <h1 class="text-center mtop-025">Pick difficulty</h1>
-<div class="vh-100 d-flex justify-content-center align-items-center">
-  <a
-    type="button"
-    class="btn btn-difficulty-xl"
-    href="{{ url_for('riddle') }}"
-    onclick="choose_difficulty('easy')"
-    ><h3>Easy</h3></a
-  >
-  <a
-    type="button"
-    class="btn btn-difficulty-xl"
-    href="{{ url_for('riddle') }}"
-    onclick="choose_difficulty('medium')"
-    ><h3>Medium</h3></a
-  >
-  <a
-    type="button"
-    class="btn btn-difficulty-xl"
-    href="{{ url_for('riddle') }}"
-    onclick="choose_difficulty('hard')"
-    ><h3>Hard</h3></a
-  >
+<div class="mtop-050 d-flex justify-content-center align-items-center">
+  <form method="POST" action="/riddle">
+
+  <a href="{{ url_for('riddle') }}"> 
+    <button type="submit" name="diff_value" value="low"><h3>Easy</h3></button>
+  </a>
+
+  <a href="{{ url_for('riddle') }}">
+    <button type="submit" name="diff_value" value="medium"><h3>Medium</h3></button>
+  </a>
+
+  <a href="{{ url_for('riddle') }}"> 
+    <button type="submit" name="diff_value" value="hard"><h3>Hard</h3></button>
+  </a>
+
+  </form>
 </div>
-<script type="text/javascript">
-  function choose_difficulty(difficulty) {
-    const dict_diff = { difficulty };
-    const stringify = JSON.stringify(dict_diff);
-    console.log(stringify);
-    $.ajax({
-      url: "/difficulty_post",
-      type: "POST",
-      contentType: "application/json",
-      data: JSON.stringify(stringify),
-    });
-  }
-</script>
 
 {% endblock %}
