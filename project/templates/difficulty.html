@@ -1,21 +1,39 @@
 {% extends "layout.html" %} {% block content %}
 <h1 class="text-center mtop-025">Pick difficulty</h1>
-<div class="mtop-050 d-flex justify-content-center align-items-center">
-  <form method="POST" action="/riddle">
 
-  <a href="{{ url_for('riddle') }}"> 
-    <button type="submit" name="diff_value" value="low"><h3>Easy</h3></button>
-  </a>
+<style>
+  table {
+    width: 100%; /* Set the table width to fill the available space */
+    table-layout: fixed; /* Prevent the table from automatically adjusting column widths */
+  }
 
-  <a href="{{ url_for('riddle') }}">
-    <button type="submit" name="diff_value" value="medium"><h3>Medium</h3></button>
-  </a>
+  td {
+    text-align: center; /* Center-align the contents of the table cells */
+    padding: 10px; /* Add some padding around the buttons */
+  }
+</style>
 
-  <a href="{{ url_for('riddle') }}"> 
-    <button type="submit" name="diff_value" value="hard"><h3>Hard</h3></button>
-  </a>
+<form method="POST" action="/riddle">
+  <table>
+    <tr>
+      <td>
+        <a href="{{ url_for('riddle') }}"> 
+          <button type="submit" name="diff_value" value="low" class="btn-difficulty-xl"><h3>Easy</h3></button>
+        </a>
+      </td>
+      <td>
+        <a href="{{ url_for('riddle') }}">
+          <button type="submit" name="diff_value" value="medium" class="btn-difficulty-xl"><h3>Medium</h3></button>
+        </a>        
+      </td>
+      <td>
+        <a href="{{ url_for('riddle') }}"> 
+          <button type="submit" name="diff_value" value="high" class="btn-difficulty-xl"><h3>Hard</h3></button>
+        </a>
+      </td>
+    </tr>
+  </table>
+</form>
 
-  </form>
-</div>
 
 {% endblock %}

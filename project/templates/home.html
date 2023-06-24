@@ -1,16 +1,31 @@
 {% extends "layout.html" %} {% block content %}
-<div class="vh-100 d-flex justify-content-center align-items-center">
-  <form method="POST" action="/difficulty">
+<style>
+  table {
+    width: 100%; /* Set the table width to fill the available space */
+    table-layout: fixed; /* Prevent the table from automatically adjusting column widths */
+  }
 
-  <a href="{{ url_for('difficulty') }}">
-    <button type="submit" name="cat_value" value="word_riddle"><h3>Textual Riddle (english only)</h3></button>
-  </a>
-
-  <a href="{{ url_for('difficulty') }}">
-    <button type="submit" name="cat_value" value="math_riddle"><h3>Math Riddle (polish only)</h3></button>
-  </a>
-
+  td {
+    text-align: center; /* Center-align the contents of the table cells */
+    padding: 10px; /* Add some padding around the buttons */
+  }
+</style>
+<form method="POST" action="/difficulty">
+  <table>
+    <tr>
+      <td>
+        <a href="{{ url_for('difficulty') }}">
+          <button type="submit" name="cat_value" value="word_riddle" class="btn-difficulty-xl"><h3>Textual Riddle (english only)</h3></button>
+        </a>
+      </td>
+      <td>
+        <a href="{{ url_for('difficulty') }}">
+          <button type="submit" name="cat_value" value="math_riddle" class="btn-difficulty-xl"><h3>Math Riddle (polish only)</h3></button>
+        </a>
+      </td>
+    </tr>
+  </table>
 </form>
-</div>
+
 
 {% endblock %}
