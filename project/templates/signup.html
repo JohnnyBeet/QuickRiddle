@@ -1,21 +1,24 @@
 {% extends "layout.html" %}
     {% block content %}
     <div class="card col-4 d-flex m-all">
-        <article class="card-body">
-        <h4 class="card-title mb-4 mt-1">Sign up</h4>
-             <form>
-            <div class="form-group">
-                <label>Your login (at least 3 characters long)</label>
-                <input name="" class="form-control" placeholder="Login" type="text">
-            </div> <!-- form-group// -->
-            <div class="form-group">
-                <label>Your password (3-8 characters long)</label>
-                <input class="form-control" placeholder="******" type="password">
-            </div> <!-- form-group// --> 
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block"> Sign in!  </button>
-            </div> <!-- form-group// -->                                                           
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <article class="card-body">
+            <h4 class="card-title mb-4 mt-1">Sign up</h4>
+                <form>
+                <div class="form-group">
+                    <label>Your login (at least 3 characters long)</label>
+                    <input name="" class="form-control" placeholder="Login" type="text">
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                    <label>Your password (3-8 characters long)</label>
+                    <input class="form-control" placeholder="******" type="password">
+                </div> <!-- form-group// --> 
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block"> Sign in!  </button>
+                </div> <!-- form-group// -->                                                           
+            </form>
+            </article>
         </form>
-        </article>
         </div> <!-- card.// -->
 {% endblock %}

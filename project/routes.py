@@ -1,4 +1,5 @@
-from flask import render_template, url_for, request
+from flask import render_template, url_for, request, flash, redirect
+from project.forms import SingupForm, LoginForm
 import json
 from project import app
 from project.src.random_riddle import random_riddle
@@ -19,14 +20,19 @@ def about():
     return render_template('about.html')
 
 
-@app.route("/login")
+@app.route("/login",methods=['GET','POST'])
 def login():
-    return render_template('login.html')
+    form = LoginForm()
+    return render_template('login.html', form=form)
 
 
-@app.route("/signup")
+@app.route("/signup",methods=['GET','POST'])
 def signup():
-    return render_template('signup.html')
+    form = SingupForm()
+    if form.validate_on_submit():
+        flash(f"Account created for {form.login.data}!", 'success')
+        return redirect(url_for('home'))
+    return render_template('signup.html', form=form)
 
 
 @app.route("/difficulty",methods=['GET','POST'])
