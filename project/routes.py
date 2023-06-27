@@ -109,10 +109,29 @@ def stats():
         number_of_correct_math_riddles = get_number_of_correct_riddles('math_riddle')
         number_of_correct_word_riddles = get_number_of_correct_riddles('word_riddle')
 
-        percent_of_correct_riddles = round(number_of_correct_riddles/number_of_completed_riddles, ndigits=2)
-        percent_of_correct_math_riddles = round(number_of_correct_math_riddles/number_of_math_riddles, ndigits=2)
-        percent_of_correct_word_riddles = round(number_of_correct_word_riddles/number_of_word_riddles, ndigits=2)
+        if number_of_completed_riddles > 0:
+            percent_of_correct_riddles = round(number_of_correct_riddles/number_of_completed_riddles, ndigits=2) * 100
+        else:
+            percent_of_correct_riddles = 0
+
+        if number_of_math_riddles > 0:
+            percent_of_correct_math_riddles = round(number_of_correct_math_riddles/number_of_math_riddles, ndigits=2) * 100
+        else:
+            percent_of_correct_math_riddles = 0
+
+        if number_of_word_riddles > 0:
+            percent_of_correct_word_riddles = round(number_of_correct_word_riddles/number_of_word_riddles, ndigits=2) * 100
+        else:
+            percent_of_correct_word_riddles = 0
+
+        data = {"username": user.user_name,
+                "nr_all": number_of_completed_riddles,
+                "nr_word": number_of_word_riddles,
+                "nr_math": number_of_math_riddles,
+                "all_correct": percent_of_correct_riddles, 
+                "word_correct": percent_of_correct_word_riddles,
+                "math_correct":percent_of_correct_math_riddles}
 
 
-        return render_template('stats.html', user=user)
+        return render_template('stats.html', data=data)
     return redirect(url_for('login'))
