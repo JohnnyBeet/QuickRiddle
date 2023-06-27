@@ -5,7 +5,7 @@ from project import app, db
 from project.src.random_riddle import random_riddle
 from project.src.save_riddle import save_riddle
 from project.src.user_administration import insert_user, check_user_credentials
-from flask_login import login_user
+from flask_login import login_user, current_user, logout_user
 
 category = None
 difficulty = None
@@ -24,6 +24,8 @@ def about():
 
 @app.route("/login",methods=['GET','POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = check_user_credentials(form.login.data, form.password.data)
@@ -35,8 +37,16 @@ def login():
     return render_template('login.html', form=form)
 
 
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+
 @app.route("/signup",methods=['GET','POST'])
 def signup():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = SingupForm()
     if form.validate_on_submit():
         insert_user(form.login.data, form.password.data)
@@ -45,36 +55,42 @@ def signup():
     return render_template('signup.html', form=form)
 
 
-@app.route("/difficulty",methods=['GET','POST'])
+@app.route("/difficulty",methods=['GET', 'POST'])
 def difficulty():
-    if request.method == 'POST':
-        global category
-        category = request.form.get('cat_value')
-        app.logger.info(f"Chosen category: {str(category)}")
-    return render_template('difficulty.html')
+    if current_user.is_authenticated:
+        if request.method == 'POST':
+            global category
+            category = request.form.get('cat_value')
+            app.logger.info(f"Chosen category: {str(category)}")
+        return render_template('difficulty.html')
+    return redirect(url_for('login'))
 
 
-@app.route("/riddle",methods=['GET','POST'])
+@app.route("/riddle",methods=['GET', 'POST'])
 def riddle():
-    if request.method == 'POST':
-        global difficulty
-        difficulty = request.form.get('diff_value')
-        app.logger.info(f"Chosen difficulty: {str(difficulty)}")
+    if current_user.is_authenticated:
+        if request.method == 'POST':
+            global difficulty
+            difficulty = request.form.get('diff_value')
+            app.logger.info(f"Chosen difficulty: {str(difficulty)}")
 
-    global random_quiz
-    random_quiz = random_riddle(category=category, difficulty=difficulty)
-    app.logger.info(f"Chosen riddle ID: {str(random_quiz.id)}")
-    return render_template('riddle.html',quiz_content=random_quiz.content)
+        global random_quiz
+        random_quiz = random_riddle(category=category, difficulty=difficulty)
+        app.logger.info(f"Chosen riddle ID: {str(random_quiz.id)}")
+        return render_template('riddle.html',quiz_content=random_quiz.content)
+    return redirect(url_for('login'))
 
-@app.route('/assessment',methods=['GET','POST'])
+@app.route('/assessment',methods=['GET', 'POST'])
 def assessment():
-    user_answer = request.form.get("user_answer")
-    correct_answer = random_quiz.answer
-    callback = 'Error'
-    if user_answer.lower() == correct_answer.lower():
-        callback = 'Correct'
-        save_riddle(random_quiz,True)
-    else:
-        callback = 'Incorrect'
-        save_riddle(random_quiz,False)
-    return render_template('assessment.html',callback=callback,right_answer=correct_answer)
+    if current_user.is_authenticated:
+        user_answer = request.form.get("user_answer")
+        correct_answer = random_quiz.answer
+        callback = 'Error'
+        if user_answer.lower() == correct_answer.lower():
+            callback = 'Correct'
+            save_riddle(random_quiz,True)
+        else:
+            callback = 'Incorrect'
+            save_riddle(random_quiz,False)
+        return render_template('assessment.html',callback=callback,right_answer=correct_answer)
+    return redirect(url_for('login'))

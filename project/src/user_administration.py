@@ -1,6 +1,5 @@
 from project import app,db, login_manager, bcrypt
 from project.database.create_database import Users
-from flask_login import UserMixin
 
 def insert_user(name, password):
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
