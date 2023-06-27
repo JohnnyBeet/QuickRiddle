@@ -1,9 +1,11 @@
 from flask import render_template, url_for, request, flash, redirect
 from project.forms import SingupForm, LoginForm
 import json
-from project import app
+from project import app, db
 from project.src.random_riddle import random_riddle
 from project.src.save_riddle import save_riddle
+from project.src.user_administration import insert_user, check_user_credentials
+from flask_login import login_user
 
 category = None
 difficulty = None
@@ -23,6 +25,13 @@ def about():
 @app.route("/login",methods=['GET','POST'])
 def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        user = check_user_credentials(form.login.data, form.password.data)
+        if user:
+            login_user(user)
+            return redirect(url_for("home"))
+        else:
+            flash('Login unsuccessfull. Please check username and password.', 'danger')
     return render_template('login.html', form=form)
 
 
@@ -30,8 +39,9 @@ def login():
 def signup():
     form = SingupForm()
     if form.validate_on_submit():
-        flash(f"Account created for {form.login.data}!", 'success')
-        return redirect(url_for('home'))
+        insert_user(form.login.data, form.password.data)
+        flash(f"Your account has been created!. You can now log in.", 'success')
+        return redirect(url_for('login'))
     return render_template('signup.html', form=form)
 
 

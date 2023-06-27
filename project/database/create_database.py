@@ -7,11 +7,12 @@ from .category import create_category_tab
 from .completed_riddles import create_completed_riddles_tab
 
 from project import app,db
+from flask_login import UserMixin
 
 Difficulty = create_difficulty_tab(db)
 Category = create_category_tab(db)
 Riddles = create_riddles_tab(db)
-Users = create_users_table(db)
+Users = create_users_table(db, UserMixin)
 CompletedRiddles = create_completed_riddles_tab(db)
 
 def insert_difficulty_level(db, Difficulty):
@@ -56,14 +57,6 @@ def insert_word_riddles(db, Riddles):
         db.session.add(row)
     db.session.commit()
 
-# TODO - to be deleted, only for debug purposes
-def insert_users(db, Users):
-    user1 = Users(user_name = "Gracz1", password = "1111111111111111111111111")
-    user2 = Users(user_name = "Gracz2", password = "1111111111111111111111111")
-    db.session.add(user1)
-    db.session.add(user2)
-    db.session.commit()
-
 
 def create_tables(db):
     with app.app_context():
@@ -75,6 +68,3 @@ def create_tables(db):
         if db.session.query(Riddles).first() is None:
             insert_math_riddles(db, Riddles)
             insert_word_riddles(db, Riddles)
-        # TODO - only for debug pruposes - to be deleted
-        if db.session.query(Users).first() is None:
-            insert_users(db,Users)
