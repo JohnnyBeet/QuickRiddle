@@ -15,11 +15,14 @@ body {
     background-color: rgb(167, 126, 175);
 
 }
+.jumbotron{
+    min-height: 490px;
+}
 
 .margin-jumbo {
-    min-height: 1000px;
-    margin-right: 15%;
-    margin-left: 15%;
+
+    margin-right: 10%;
+    margin-left: 10%;
     margin-bottom: 20%;
 }
 
@@ -47,9 +50,3 @@ body {
    margin-left: auto;
    margin-right: auto; 
 }
-
-.jumbotron {
-    min-height: 300px; /* Set a minimum height for jumbotrons /
-    display: flex; / Enable flexbox layout /
-    align-items: center; / Center the content vertically */
-  }
