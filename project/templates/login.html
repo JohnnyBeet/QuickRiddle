@@ -4,25 +4,40 @@
         <article class="card-body">
         <a href=" {{ url_for('signup')}}" class="float-right btn btn-outline-primary">Sign up</a>
         <h4 class="card-title mb-4 mt-1">Log in</h4>
-             <form>
-            <div class="form-group">
-                <label>Your login</label>
-                <input name="" class="form-control" placeholder="Login" type="text">
-            </div> <!-- form-group// -->
-            <div class="form-group">
-                <a class="float-right" href="#">Forgot?</a>
-                <label>Your password</label>
-                <input class="form-control" placeholder="******" type="password">
-            </div> <!-- form-group// --> 
-            <div class="form-group"> 
-            <div class="checkbox">
-              <label> <input type="checkbox"> Save password </label>
-            </div> <!-- checkbox .// -->
-            </div> <!-- form-group// -->  
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block"> Login  </button>
-            </div> <!-- form-group// -->                                                           
-        </form>
+            <form method="POST" action="" novalidate>
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                        {{ form.login.label(class="form-control-label")}}
+    
+                        {% if form.login.errors %}
+                            {{ form.login(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.login.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.login(class="form-control", placeholder="Login", type="text") }}
+                        {% endif %}
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                    {{ form.password.label(class="form-control-label")}}
+
+                    {% if form.password.errors %}
+                        {{ form.password(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class="form-control", placeholder="*****", type="password") }}
+                    {% endif %}
+                </div> <!-- form-group// --> 
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-primary btn-block")}}
+                </div> <!-- form-group// -->                                                         
+            </form>
         </article>
         </div> <!-- card.// -->
 {% endblock %}

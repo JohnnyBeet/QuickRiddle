@@ -48,16 +48,34 @@
       </div>
       <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
+          {% if current_user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a>
+          </li>
+          <li class="nav-item">
+            <!-- need to change to stats page -->
+            <a class="nav-link" href="{{ url_for('stats') }}">Statistics</a>
+          </li>
+          {% else %}
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('login') }}">Log In</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('signup') }}">Sign Up</a>
           </li>
+          {% endif %}
         </ul>
       </div>
     </nav>
-
+    {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} text-center col-6 col-sm-4 offset-4">
+          {{ message }}
+        </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
     {% block content %}{% endblock %}
 
     <!-- Optional JavaScript -->

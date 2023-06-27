@@ -1,0 +1,74 @@
+{% extends "layout.html" %} {% block content %}
+<div class="page-content page-container" id="page-content">
+  <div class="padding">
+    <div class="d-flex flex-row justify-content-center">
+
+      <div class="col-md-4">
+
+        <div class="jumbotron"> 
+
+          <div class="widget-user-header bg-aqua-active">
+            <h1 class="text-center">Player: {{ data["username"]}}</h1>
+            <div class="box-footer">
+              <div class="row mt-4">
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header"> {{ data["nr_all"] }}</h5>
+                    <span class="description-text">Number of played riddles</span>
+                  </div>
+
+                </div>
+
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header">{{ data["nr_word"] }}</h5>
+                    <span class="description-text">Number of played word riddles</span>
+                  </div>
+
+                </div>
+
+                <div class="col-sm-4">
+                  <div class="description-block">
+                    <h5 class="description-header">{{ data["nr_math"] }}</h5>
+                    <span class="description-text">Number of played math riddles</span>
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="row mt-4">
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header"> {{ data["all_correct"] }}%</h5>
+                    <span class="description-text">Percentage of solved riddles</span>
+                  </div>
+
+                </div>
+
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header">{{ data["word_correct"] }}%</h5>
+                    <span class="description-text">Percentage of solved word riddles</span>
+                  </div>
+
+                </div>
+
+                <div class="col-sm-4">
+                  <div class="description-block">
+                    <h5 class="description-header">{{ data["math_correct"] }}%</h5>
+                    <span class="description-text">Percentage of solved math riddles</span>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}

@@ -1,0 +1,47 @@
+{% extends "layout.html" %} {% block content %}
+<h1 class="text-center mtop-025">Your answer was</h1>
+{% if callback == 'Correct' %}
+<div style="align-items: center; justify-content: center; display: flex; color: green;">
+    <h1>{{callback}}</h1>
+</div>
+
+{% else %}
+<div style="align-items: center; justify-content: center; display: flex; color: red;">
+    <h1>{{callback}}</h1>
+</div>
+<div style="align-items: center; justify-content: center; display: flex;">
+    <h1>The right answer was:</h1>
+</div>
+<div style="align-items: center; justify-content: center; display: flex; color: green;">
+    <h1>{{right_answer}}</h1>
+</div>
+{% endif %}
+
+<style>
+    table {
+      width: 100%; /* Set the table width to fill the available space */
+      table-layout: fixed; /* Prevent the table from automatically adjusting column widths */
+    }
+  
+    td {
+      text-align: center; /* Center-align the contents of the table cells */
+      padding: 10px; /* Add some padding around the buttons */
+    }
+  </style>
+    <table>
+      <tr>
+        <td>
+          <a href="{{ url_for('home') }}">
+            <button type="text" class="btn-difficulty-xl"><h3>Back Home</h3></button>
+          </a>
+        </td>
+        <td>
+          <a href="{{ url_for('riddle') }}">
+            <button type="text" class="btn-difficulty-xl"><h3>Try the next one</h3></button>
+          </a>
+        </td>
+      </tr>
+    </table>
+
+
+{% endblock %}

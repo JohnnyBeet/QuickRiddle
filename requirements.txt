@@ -1,0 +1,8 @@
+pandas
+sqlalchemy
+flask_login
+flask_sqlalchemy
+flask_bcrypt
+wtforms
+flask_wtf
+sqlalchemy_utils

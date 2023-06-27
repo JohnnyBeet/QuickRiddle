@@ -1,32 +1,31 @@
 {% extends "layout.html" %} {% block content %}
-<div class="vh-100 d-flex justify-content-center align-items-center">
-  <a
-    type="button"
-    class="btn btn-home-xl"
-    href="{{ url_for('difficulty') }}"
-    onClick="choose_type('textual')"
-    ><h3>Textual Riddle (english only)</h3></a
-  >
-  <a
-    type="button"
-    class="btn btn-home-xl"
-    href="{{ url_for('difficulty') }}"
-    onClick="choose_type('math')"
-    ><h3>Math Riddle (polish only)</h3></a
-  >
-</div>
-
-<script type="text/javascript">
-  function choose_type(type) {
-    const dict_type = { type };
-    const stringify = JSON.stringify(dict_type);
-    console.log(stringify);
-    $.ajax({
-      url: "/type_post",
-      type: "POST",
-      contentType: "application/json",
-      data: JSON.stringify(stringify),
-    });
+<style>
+  table {
+    width: 100%; /* Set the table width to fill the available space */
+    table-layout: fixed; /* Prevent the table from automatically adjusting column widths */
   }
-</script>
+
+  td {
+    text-align: center; /* Center-align the contents of the table cells */
+    padding: 100px; /* Add some padding around the buttons */
+  }
+</style>
+<form method="POST" action="/difficulty">
+  <table>
+    <tr>
+      <td>
+        <a href="{{ url_for('difficulty') }}">
+          <button type="submit" name="cat_value" value="word_riddle" class="btn-difficulty-xl"><h3>Textual Riddle (english only)</h3></button>
+        </a>
+      </td>
+      <td>
+        <a href="{{ url_for('difficulty') }}">
+          <button type="submit" name="cat_value" value="math_riddle" class="btn-difficulty-xl"><h3>Math Riddle (polish only)</h3></button>
+        </a>
+      </td>
+    </tr>
+  </table>
+</form>
+
+
 {% endblock %}
