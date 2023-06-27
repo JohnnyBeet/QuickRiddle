@@ -1,10 +1,10 @@
 from flask import render_template, url_for, request, flash, redirect
 from project.forms import SingupForm, LoginForm
-import json
-from project import app, db
+from project import app
 from project.src.random_riddle import random_riddle
 from project.src.save_riddle import save_riddle
-from project.src.user_administration import insert_user, check_user_credentials
+from project.src.user_administration import insert_user, check_user_credentials, load_user
+from project.src.stats import get_number_of_riddles, get_number_of_correct_riddles
 from flask_login import login_user, current_user, logout_user
 
 category = None
@@ -22,7 +22,7 @@ def about():
     return render_template('about.html')
 
 
-@app.route("/login",methods=['GET','POST'])
+@app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
@@ -43,7 +43,7 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route("/signup",methods=['GET','POST'])
+@app.route("/signup", methods=['GET', 'POST'])
 def signup():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
@@ -55,7 +55,7 @@ def signup():
     return render_template('signup.html', form=form)
 
 
-@app.route("/difficulty",methods=['GET', 'POST'])
+@app.route("/difficulty", methods=['GET', 'POST'])
 def difficulty():
     if current_user.is_authenticated:
         if request.method == 'POST':
@@ -66,7 +66,7 @@ def difficulty():
     return redirect(url_for('login'))
 
 
-@app.route("/riddle",methods=['GET', 'POST'])
+@app.route("/riddle", methods=['GET', 'POST'])
 def riddle():
     if current_user.is_authenticated:
         if request.method == 'POST':
@@ -77,10 +77,11 @@ def riddle():
         global random_quiz
         random_quiz = random_riddle(category=category, difficulty=difficulty)
         app.logger.info(f"Chosen riddle ID: {str(random_quiz.id)}")
-        return render_template('riddle.html',quiz_content=random_quiz.content)
+        return render_template('riddle.html', quiz_content=random_quiz.content)
     return redirect(url_for('login'))
 
-@app.route('/assessment',methods=['GET', 'POST'])
+
+@app.route('/assessment', methods=['GET', 'POST'])
 def assessment():
     if current_user.is_authenticated:
         user_answer = request.form.get("user_answer")
@@ -88,9 +89,30 @@ def assessment():
         callback = 'Error'
         if user_answer.lower() == correct_answer.lower():
             callback = 'Correct'
-            save_riddle(random_quiz,True)
+            save_riddle(random_quiz, True)
         else:
             callback = 'Incorrect'
-            save_riddle(random_quiz,False)
-        return render_template('assessment.html',callback=callback,right_answer=correct_answer)
+            save_riddle(random_quiz, False)
+        return render_template('assessment.html', callback=callback, right_answer=correct_answer)
+
+
+@app.route("/stats", methods=['GET', 'POST'])
+def stats():
+    if current_user.is_authenticated:
+        user = load_user(current_user.get_id())
+
+        number_of_completed_riddles = get_number_of_riddles()
+        number_of_math_riddles = get_number_of_riddles('math_riddle')
+        number_of_word_riddles = get_number_of_riddles('word_riddle')
+
+        number_of_correct_riddles = get_number_of_correct_riddles()
+        number_of_correct_math_riddles = get_number_of_correct_riddles('math_riddle')
+        number_of_correct_word_riddles = get_number_of_correct_riddles('word_riddle')
+
+        percent_of_correct_riddles = round(number_of_correct_riddles/number_of_completed_riddles, ndigits=2)
+        percent_of_correct_math_riddles = round(number_of_correct_math_riddles/number_of_math_riddles, ndigits=2)
+        percent_of_correct_word_riddles = round(number_of_correct_word_riddles/number_of_word_riddles, ndigits=2)
+
+
+        return render_template('stats.html', user=user)
     return redirect(url_for('login'))

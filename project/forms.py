@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
 from project.database.create_database import Users
 
+
 class SingupForm(FlaskForm):
     login = StringField('Your login (at least 3 characters long)', validators=[DataRequired(), Length(min=3, max=20)])
     password = PasswordField('Your password', validators=[DataRequired()])
@@ -13,6 +14,7 @@ class SingupForm(FlaskForm):
         user = Users.query.filter_by(user_name=login.data).first()
         if user:
             raise ValidationError('This login is already taken. Please choose another one.')
+
 
 class LoginForm(FlaskForm):
     login = StringField('Your login', validators=[DataRequired()])

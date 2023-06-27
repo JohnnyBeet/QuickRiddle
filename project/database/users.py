@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Sequence, CheckConstraint
-from sqlalchemy.types import ARRAY
+
 
 def create_users_table(db, UserMixin):
     class Users(db.Model, UserMixin):
