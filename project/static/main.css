@@ -17,6 +17,7 @@ body {
 }
 
 .margin-jumbo {
+    min-height: 1000px;
     margin-right: 15%;
     margin-left: 15%;
     margin-bottom: 20%;
@@ -35,7 +36,7 @@ body {
     height: 200px;
     margin-right: 5%;
     margin-left: 5%;
-    margin-bottom: 20%;
+    margin-bottom: 5%;
     background-color: rgb(149, 142, 109);
 
 }
@@ -46,3 +47,9 @@ body {
    margin-left: auto;
    margin-right: auto; 
 }
+
+.jumbotron {
+    min-height: 300px; /* Set a minimum height for jumbotrons /
+    display: flex; / Enable flexbox layout /
+    align-items: center; / Center the content vertically */
+  }

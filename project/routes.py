@@ -60,7 +60,11 @@ def difficulty():
     if current_user.is_authenticated:
         if request.method == 'POST':
             global category
+            global is_copyright
+            is_copyright = False
             category = request.form.get('cat_value')
+            if category == 'math_riddle':
+                is_copyright = True
             app.logger.info(f"Chosen category: {str(category)}")
         return render_template('difficulty.html')
     return redirect(url_for('login'))
@@ -77,7 +81,7 @@ def riddle():
         global random_quiz
         random_quiz = random_riddle(category=category, difficulty=difficulty)
         app.logger.info(f"Chosen riddle ID: {str(random_quiz.id)}")
-        return render_template('riddle.html', quiz_content=random_quiz.content)
+        return render_template('riddle.html', quiz_content=random_quiz.content, is_copyright=is_copyright)
     return redirect(url_for('login'))
 
 
